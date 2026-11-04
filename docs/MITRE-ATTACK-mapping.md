@@ -1,6 +1,6 @@
 # MITRE ATT&CK Mapping — Pen-Test Exercise Findings
 
-Fill in one row per meaningful event (detected or missed) from the Phase 7 exercise.
+Fill in one row per meaningful event (detected or missed) from the Phase 6 exercise.
 
 | # | Technique ID | Technique Name | What the Attacker Did | Wazuh Rule Fired? | Detected? | Notes / Gap |
 |---|---|---|---|---|---|---|
