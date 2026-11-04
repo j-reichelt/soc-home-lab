@@ -12,11 +12,35 @@
 
 ### Domain Promotion
 
+Server Manager flags the post-deployment configuration step right after the AD DS role finishes installing:
+
+![Server Manager Dashboard with the post-deployment notification to promote this server to a domain controller](../../screenshots/phase2/10-server-manager-post-deployment-notification.png)
+*Post-deployment configuration flag — triggers the "Promote this server to a domain controller" wizard.*
+
 - Deployment: **Add a new forest**.
 - Root domain name: `corp.local` (NetBIOS name: `CORP`).
 - Forest / domain functional level: Windows Server 2016.
 - Domain controller capabilities: DNS Server ✅, Global Catalog ✅, RODC ❌.
 - Set a Directory Services Restore Mode (DSRM) password, reviewed the configuration summary, then installed and rebooted.
+
+![AD DS Configuration Wizard — Domain Controller Options screen with DNS Server and Global Catalog checked](../../screenshots/phase2/11-adds-wizard-domain-controller-options.png)
+*Domain Controller Options: forest/domain functional level and DSRM password.*
+
+![AD DS Configuration Wizard — Review Options screen confirming corp.local as a new forest, NetBIOS CORP, DNS Server: Yes](../../screenshots/phase2/12-adds-wizard-review-options.png)
+*Final review before installation — new forest `corp.local`, NetBIOS `CORP`, DNS and Global Catalog enabled.*
+
+![AD DS Configuration Wizard — Prerequisites Check screen, all checks passed successfully](../../screenshots/phase2/13-adds-wizard-prerequisites-check.png)
+*Prerequisites check passed (with the expected NT4-compatibility and DNS-delegation warnings, which don't apply to a single-forest lab).*
+
+### Post-Promotion State
+
+Right after the reboot, the domain exists but is still empty — no OUs, groups, or users yet:
+
+![AD Users and Computers showing a freshly-promoted, empty corp.local domain with no OUs yet](../../screenshots/phase2/14-ad-users-computers-initial-empty-domain.png)
+*corp.local immediately after promotion — baseline state before building out the OU structure.*
+
+![Server Manager Local Server properties for DC — computer name DC, domain corp.local, IP 10.10.20.10, Windows Server 2022 Standard Evaluation](../../screenshots/phase2/15-local-server-properties.png)
+*Local Server properties, confirming hostname, domain membership, and networking post-promotion.*
 
 ## OUs, Groups, Users
 
@@ -25,6 +49,12 @@ Structure built in Active Directory Users and Computers (`dsa.msc`) under `corp.
 - **OUs**: Servers, Workstations, Groups, Users (sub-OUs: Standard-Users, Privileged-Users, Service-Accounts)
 - **Security groups**: SG-DomainAdmins, SG-HelpDesk, SG-Finance, SG-HR, SG-AllUsers (Global, Security)
 - **Users** (~8–10 total): 1–2 Domain Admins, 1 Help Desk / Tier-1 account, 5–6 standard users spread across Finance/HR/general groups, 1–2 service accounts
+
+![Full Active Directory Users and Computers OU tree — Builtin, Computers, Domain Controllers, Users, Servers, Workstations, Groups, Corp-users with Standard-Users/Privileged-Users/Service-Accounts sub-OUs](../../screenshots/phase2/16-ad-users-computers-ou-tree-full.png)
+*Complete OU layout under `corp.local`, including the three-tier user structure under Corp-users.*
+
+![Groups OU showing the five security groups — SG-AllUsers, SG-DomainAdmins, SG-Finance, SG-HelpDesk, SG-HR](../../screenshots/phase2/17-groups-ou-security-groups.png)
+*Security groups created under the Groups OU.*
 
 | Full Name | Logon Name | Group(s) |
 |---|---|---|
@@ -35,12 +65,33 @@ Structure built in Active Directory Users and Computers (`dsa.msc`) under `corp.
 | Priya Natarajan | pnatarajan | SG-HR, SG-AllUsers |
 | Tom Alvarez | talvarez | SG-HR, SG-AllUsers |
 
+![Standard-Users OU with the six standard user accounts](../../screenshots/phase2/18-standard-users-ou.png)
+*Standard-Users OU — day-to-day accounts with no elevated rights.*
+
 ![Reference table of standard user accounts, logon names, and their assigned groups](../../screenshots/phase2/09-user-account-reference-table.png)
 *Quick-reference table used while provisioning accounts in AD Users and Computers.*
+
+Alongside the standard tier, a separate **Privileged-Users** OU holds the small set of accounts with elevated (Domain Admin / Tier-0) rights — kept apart from day-to-day accounts so Restricted Groups and tighter auditing can target them specifically:
+
+![Privileged-Users OU with the privileged/admin-tier accounts — Lena Petrova, Marcus Dub…, Samantha R…](../../screenshots/phase2/19-privileged-users-ou.png)
+*Privileged-Users OU — separated from Standard-Users so GPOs and auditing can treat admin-tier accounts differently.*
+
+A **Service-Accounts** OU holds the non-interactive accounts used by other parts of the lab (the Wazuh agent enrollment and backup jobs):
+
+![Service-Accounts OU with svc-wazuh and svc-backup](../../screenshots/phase2/20-service-accounts-ou.png)
+*Service-Accounts OU — `svc-wazuh` and `svc-backup`, kept separate from human accounts.*
 
 ## Group Policy
 
 GPO `SOC-Baseline-Security` linked to the Workstations OU:
+
+![Group Policy Management console at the Forest: corp.local root, before drilling into the GPO](../../screenshots/phase2/21-gpm-forest-root-view.png)
+*Group Policy Management — forest root view, showing the corp.local domain and OU structure GPOs attach to.*
+
+- **Password policy**: minimum password length set to 12 characters.
+
+![Minimum password length policy setting — 12 characters](../../screenshots/phase2/22-gpo-minimum-password-length.png)
+*Minimum password length, set under Account Policies → Password Policy.*
 
 - **Account lockout policy**: lockout threshold set to 5 invalid logon attempts.
 
