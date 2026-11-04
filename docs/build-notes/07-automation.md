@@ -1,4 +1,4 @@
-# Phase 5 — Automated Deployment
+# Phase 7 — Automated Deployment
 
 ## Sysmon via GPO
 
@@ -8,7 +8,7 @@
 
 *(GPO Software Installation or startup script pushing the Wazuh agent MSI.)*
 
-![Zero-touch agent enrollment](../../screenshots/phase5/auto-enroll.png)
+![Zero-touch agent enrollment](../../screenshots/phase7/auto-enroll.png)
 
 *(Caption: freshly domain-joined VM rebooting and appearing as an Active agent with zero manual steps — your best automation proof point.)*
 
