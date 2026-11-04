@@ -2,10 +2,9 @@
 
 A self-built, segmented security operations lab: pfSense-based network segmentation, an Active Directory domain with tiered users/groups, a Wazuh SIEM ingesting Sysmon telemetry, and a live pen-test exercise run against an intentionally vulnerable target — with detections mapped to MITRE ATT&CK.
 
-
 ## Problem Statement
 
-*(2–4 sentences: what you set out to prove/build and why): 
+*(2–4 sentences: what you set out to prove/build and why):
 I wanted hands-on evidence of segmentation design, identity management, and detection engineering beyond what a certification alone demonstrates, so I built a small enterprise network from scratch and ran a real attack against it to see what my own defenses would catch or miss.
 
 ## Architecture
@@ -44,16 +43,16 @@ Segmentation is enforced at pfSense with a default-deny posture: WORKSTATIONS ca
 - [ ] Phase 2 — Active Directory (domain, OUs, groups, users, GPO)
 - [ ] Phase 3 — Client workstations, domain-joined
 - [ ] Phase 4 — Wazuh SIEM deployment and agent enrollment
-- [ ] Phase 5 — Automated deployment (GPO-pushed Sysmon + Wazuh agent)
-- [ ] Phase 6 — Attacker infrastructure (Kali + Metasploitable2) and remote access setup
-- [ ] Phase 7 — Live pen-test exercise
+- [ ] Phase 5 — Attacker infrastructure (Kali + Metasploitable2) and remote access setup
+- [ ] Phase 6 — Live pen-test exercise
+- [ ] Phase 7 — Automated deployment (GPO-pushed Sysmon + Wazuh agent)
 - [ ] Phase 8 — Detection write-up and MITRE ATT&CK mapping
 
 Detailed, per-phase build notes with screenshots live in [`/docs/build-notes`](docs/build-notes).
 
 ## What I Detected
 
-*(Fill in after Phase 7 — summarize the attack scenario(s) run, what Wazuh caught in real time, and reference the full mapping in [`docs/MITRE-ATTACK-mapping.md`](docs/MITRE-ATTACK-mapping.md))*
+*(Fill in after Phase 6 — summarize the attack scenario(s) run, what Wazuh caught in real time, and reference the full mapping in [`docs/MITRE-ATTACK-mapping.md`](docs/MITRE-ATTACK-mapping.md))*
 
 ## What I'd Improve Next
 
@@ -65,12 +64,12 @@ Detailed, per-phase build notes with screenshots live in [`/docs/build-notes`](d
 .
 ├── README.md
 ├── docs/
-│   ├── build-notes/        # per-phase write-ups with embedded screenshots
-│   ├── RoE-template.md     # Rules of Engagement used for the pen-test exercise
-│   └── MITRE-ATTACK-mapping.md
-├── diagrams/                # network diagram (draw.io source + exported image)
-├── screenshots/              # organized by phase, referenced from build-notes
-└── playbooks/                 # Ansible playbooks (stretch goal)
+│ ├── build-notes/ # per-phase write-ups with embedded screenshots
+│ ├── RoE-template.md # Rules of Engagement used for the pen-test exercise
+│ └── MITRE-ATTACK-mapping.md
+├── diagrams/ # network diagram (draw.io source + exported image)
+├── screenshots/ # organized by phase, referenced from build-notes
+└── playbooks/ # Ansible playbooks (stretch goal)
 ```
 
 ## Sanitization Note
