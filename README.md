@@ -40,8 +40,8 @@ Segmentation is enforced at pfSense with a default-deny posture: WORKSTATIONS ca
 
 - [x] Phase 0 — Prerequisites & environment prep
 - [x] Phase 1 — pfSense network segmentation
-- [ ] Phase 2 — Active Directory (domain, OUs, groups, users, GPO)
-- [ ] Phase 3 — Client workstations, domain-joined
+- [x] Phase 2 — Active Directory (domain, OUs, groups, users, GPO)
+- [x] Phase 3 — Client workstations, domain-joined
 - [ ] Phase 4 — Wazuh SIEM deployment and agent enrollment
 - [ ] Phase 5 — Attacker infrastructure (Kali + Metasploitable2) and remote access setup
 - [ ] Phase 6 — Live pen-test exercise
