@@ -16,10 +16,10 @@ VirtualBox only exposes 4 network adapters per VM in the GUI by default, so the 
 vboxmanage modifyvm "pfSense-FW" --nic5 intnet --intnet5 intnet-dmz
 ```
 
-![pfSense console at first boot, showing the initial install menu](../../screenshots/phase1/01-pfsense-initial-install-console.png)
+![pfSense console at first boot, showing the initial install menu](../../screenshots/phase1-pfSense-firewall/01-pfsense-initial-install-console.png)
 *pfSense CE installer console — first boot after attaching the ISO.*
 
-![VirtualBox VM settings for pfSense-FW showing 5 network adapters configured](../../screenshots/phase1/02-pfsense-vm-specs.png)
+![VirtualBox VM settings for pfSense-FW showing 5 network adapters configured](../../screenshots/phase1-pfSense-firewall/02-pfsense-vm-specs.png)
 *pfSense-FW VM specs, including the 5th DMZ adapter added via the command line.*
 
 ## Interface Assignments
@@ -34,7 +34,7 @@ pfSense enumerates interfaces starting at 0, so the 5 total adapters are labeled
 | em3 | WORKSTATIONS | Internal Network (`intnet-workstations`) |
 | em4 | DMZ | Internal Network (`intnet-dmz`) |
 
-![pfSense web GUI Interface Assignments page showing WAN/MGMT/SERVERS/WORKSTATIONS/DMZ mapped to em0–em4](../../screenshots/phase1/03-interface-assignments-webgui.png)
+![pfSense web GUI Interface Assignments page showing WAN/MGMT/SERVERS/WORKSTATIONS/DMZ mapped to em0–em4](../../screenshots/phase1-pfSense-firewall/03-interface-assignments-webgui.png)
 *Web GUI view of the interface assignments, confirming all 5 adapters map correctly.*
 
 ## Static IP Assignments
@@ -57,11 +57,22 @@ Default posture is deny-all between segments, with narrow pass rules opened wher
 - **WORKSTATIONS → SERVERS**: blocked by default, with explicit allow rules above the deny for DNS (53), Kerberos (88), LDAP (389), and SMB (445) — the ports a domain-joined client actually needs to talk to the DC.
 - **DMZ → SERVERS / WORKSTATIONS**: fully blocked, no exceptions yet. This gets narrowed later to intentionally open a single path for the Phase 6 pen-test exercise.
 
-![pfSense firewall rules for the WORKSTATIONS interface — explicit allow rules for DNS/Kerberos/LDAP/SMB above a deny-all to SERVERS](../../screenshots/phase1/04-firewall-rules-workstations.png)
+![pfSense firewall rules for the WORKSTATIONS interface — explicit allow rules for DNS/Kerberos/LDAP/SMB above a deny-all to SERVERS](../../screenshots/phase1-pfSense-firewall/04-firewall-rules-workstations.png)
 *WORKSTATIONS → SERVERS: least-privilege rule set — one of the most important screenshots in the build, since it's direct evidence of segmentation design.*
 
-![pfSense firewall rules for the DMZ interface — deny-all to both SERVERS and WORKSTATIONS subnets](../../screenshots/phase1/05-firewall-rules-dmz.png)
+![pfSense firewall rules for the DMZ interface — deny-all to both SERVERS and WORKSTATIONS subnets](../../screenshots/phase1-pfSense-firewall/05-firewall-rules-dmz.png)
 *DMZ is fully isolated from both internal segments by default — the baseline posture before a path is opened for the pen-test exercise.*
+
+### Supporting interface rules
+
+![pfSense WAN interface rules — block RFC 1918 private networks and bogon networks, no inbound pass rules](../../screenshots/phase1-pfSense-firewall/pfsense-wan-rules.png)
+*WAN — default-deny inbound: block private (RFC 1918) and bogon networks, with no pass rules opened from the internet.*
+
+![pfSense LAN/MGMT interface rules — anti-lockout rule plus default allow LAN to any](../../screenshots/phase1-pfSense-firewall/pfsense-lan-rules.png)
+*MGMT (LAN) — anti-lockout rule plus default allow-to-any, so the admin segment retains full management access to pfSense.*
+
+![pfSense SERVERS interface rules — allow outbound Servers traffic to the Internet](../../screenshots/phase1-pfSense-firewall/pfsense-servers-rules.png)
+*SERVERS — permitted outbound to the Internet (for updates/package installs); inter-segment traffic is still governed by the least-privilege rules above.*
 
 ## Next Steps
 

@@ -4,7 +4,7 @@
 
 Virtual Machines
 	- Windows Server 2022 Standard with GUI (Domain Controller)
-	- Ubuntu v26 (SIEM)
+	- Ubuntu Server 24.04 LTS (SIEM)
 	- Windows 11 (Workstations 1 and 2)
 	- pfSense (Firewall)
 	- Kali Linux (Attacker machine)

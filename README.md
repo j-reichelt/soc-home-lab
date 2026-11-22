@@ -9,7 +9,7 @@ I wanted hands-on evidence of segmentation design, identity management, and dete
 
 ## Architecture
 
-![Network Diagram](diagrams/network-diagram.png)
+![Network Diagram](diagrams/network-architecture.png)
 
 | Segment | Subnet | Purpose |
 |---|---|---|
@@ -36,7 +36,13 @@ Segmentation is enforced at pfSense with a default-deny posture: WORKSTATIONS ca
 
 ## What I Built
 
-*(Checklist or short narrative per phase — fill in as you complete each one)*
+The lab is live through Phase 4: a pfSense-segmented network, an Active Directory domain
+(`corp.local`) with tiered OUs/groups/users and a hardened GPO baseline, and a Wazuh 4.14
+all-in-one SIEM on Ubuntu Server 24.04. Both Windows 11 workstations are domain-joined and
+running the Wazuh agent — they show **Active** on the dashboard, and the Phase 2 audit
+policy (logon, account-logon, object-access, privilege-use) is confirmed landing as events
+in Wazuh. Phases 5–8 (attacker infrastructure, the live pen-test, GPO-pushed automation,
+and the detection write-up) are the remaining roadmap.
 
 - [x] Phase 0 — Prerequisites & environment prep
 - [x] Phase 1 — pfSense network segmentation
