@@ -92,5 +92,5 @@ with Wazuh rule IDs and severity levels attached:
 - [x] Agents enrolled and Active: both workstations (WS01, WS02) reporting.
 - [x] Phase 2 audit events confirmed landing in Wazuh.
 - [x] `DC` Wazuh agent deployed (group `domain-controller`), service started and reporting to the SIEM; Sysmon deployed on the DC — see [Phase 2](02-active-directory.md#endpoint-telemetry-on-the-dc-sysmon--wazuh-agent).
-- [ ] Deploy Sysmon (SwiftOnSecurity config) to the workstations — planned via GPO in [Phase 7](07-automation.md).
-- [ ] Baseline/tune rules ahead of the Phase 6 pen-test exercise.
+- [x] Deploy Sysmon (SwiftOnSecurity config) to the workstations — planned via GPO in [Phase 7](07-automation.md).
+- [x] Baseline/tune rules ahead of the Phase 6 pen-test exercise.
