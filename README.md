@@ -4,8 +4,7 @@ A self-built, segmented security operations lab: pfSense-based network segmentat
 
 ## Problem Statement
 
-*(2–4 sentences: what you set out to prove/build and why):
-I wanted hands-on evidence of segmentation design, identity management, and detection engineering beyond what a certification alone demonstrates, so I built a small enterprise network from scratch and ran a real attack against it to see what my own defenses would catch or miss.
+I wanted hands-on evidence of segmentation design, identity management, and detection engineering beyond what a certification alone demonstrates, so I built a small enterprise network from scratch and plan to run a real attack against it to see what my own defenses would catch or miss.
 
 ## Architecture
 
