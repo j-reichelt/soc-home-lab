@@ -55,13 +55,25 @@ NET START Wazuh
 ![WS01 PowerShell session downloading the Wazuh agent MSI, installing it against manager 10.10.20.20, and starting the Wazuh service successfully](../../screenshots/phase4-siem-wazuh/ws01-wazuh-agent-install.png)
 *WS01 — agent MSI installed against the manager and the Wazuh service started successfully.*
 
+The domain controller is enrolled the same way, using a dedicated agent name and group so
+DC telemetry is easy to isolate on the manager:
+
+```powershell
+Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.10-1.msi -OutFile $env:tmp\wazuh-agent
+msiexec.exe /i $env:tmp\wazuh-agent /q WAZUH_MANAGER='10.10.20.20' WAZUH_AGENT_GROUP='domain-controller' WAZUH_AGENT_NAME='DC'
+NET START WazuhSvc
+```
+
+![DC PowerShell session installing the Wazuh agent MSI with agent name DC and group domain-controller against manager 10.10.20.20, with the Wazuh service reporting it started successfully](../../screenshots/phase4-siem-wazuh/dc-wazuh-agent-logs.png)
+*DC — Wazuh agent installed (name `DC`, group `domain-controller`) and the `WazuhSvc` service started successfully.*
+
 ### Agents Active on the Dashboard
 
 Both workstations report in as **Active**. The Endpoints summary shows the two Windows 11
 clients enrolled on manager node `node01`, running agent `v4.14.10`:
 
 ![Wazuh Endpoints summary showing 2 active agents — WS-01 at 10.10.30.100 and WS-02 at 10.10.30.101, both Windows 11 Pro, agent v4.14.10, status Active](../../screenshots/phase4-siem-wazuh/endpoints-wazuh-dashboard.png)
-*Endpoints view — WS-01 (`10.10.30.100`) and WS-02 (`10.10.30.101`) both Active.*
+*Endpoints view — WS-01 (`10.10.30.100`) and WS-02 (`10.10.30.101`) Active. The `DC` agent is also enrolled and reporting (added after this capture); this screenshot will be refreshed to show all three.*
 
 ## Telemetry Landing
 
@@ -79,6 +91,6 @@ with Wazuh rule IDs and severity levels attached:
 - [x] Wazuh 4.14 all-in-one stack installed; dashboard reachable.
 - [x] Agents enrolled and Active: both workstations (WS01, WS02) reporting.
 - [x] Phase 2 audit events confirmed landing in Wazuh.
-- [ ] Enroll `DC01` as a monitored agent (not yet enrolled — dashboard currently shows the two workstation agents only).
-- [ ] Deploy Sysmon (SwiftOnSecurity config) to enrich process/network telemetry — planned via GPO in [Phase 7](07-automation.md).
+- [x] `DC` Wazuh agent deployed (group `domain-controller`), service started and reporting to the SIEM; Sysmon deployed on the DC — see [Phase 2](02-active-directory.md#endpoint-telemetry-on-the-dc-sysmon--wazuh-agent).
+- [ ] Deploy Sysmon (SwiftOnSecurity config) to the workstations — planned via GPO in [Phase 7](07-automation.md).
 - [ ] Baseline/tune rules ahead of the Phase 6 pen-test exercise.
