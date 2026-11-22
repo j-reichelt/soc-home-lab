@@ -123,3 +123,22 @@ GPO `SOC-Baseline-Security` linked to the Workstations OU:
 
 ![Group Policy Management console showing SOC-Baseline-Security linked to the Workstations OU](../../screenshots/phase2-domain-controller/08-gpo-linked-workstations-ou.png)
 *SOC-Baseline-Security GPO linked and enabled on the Workstations OU.*
+
+## Endpoint Telemetry on the DC (Sysmon + Wazuh Agent)
+
+Beyond the Windows audit policy above, the domain controller itself was further equipped
+for richer endpoint telemetry: **Sysmon** (SwiftOnSecurity config) is installed and
+logging, and the **Wazuh agent** is connected (agent name `DC`, group `domain-controller`)
+so the DC's events forward to the SIEM on `10.10.20.20`. Event Viewer on the DC confirms
+Sysmon is active — the `Applications and Services Logs → Microsoft → Windows → Sysmon →
+Operational` channel is populated (here, a Sysmon **Event ID 22 / DNS query** among 154
+recorded events):
+
+![Event Viewer on the domain controller showing the Sysmon Operational log populated with 154 events, Source Sysmon, including an Event ID 22 DNS query entry](../../screenshots/phase2-domain-controller/dc-sysmon-eventviewer.png)
+*Sysmon running on the DC — the Operational log is recording process/DNS/network events, which the Wazuh agent forwards to the SIEM.*
+
+The agent install itself (and the `WazuhSvc` service starting) is shown in
+[Phase 4](04-siem-wazuh.md#agent-enrollment).
+
+> Sysmon here is installed directly on the DC. Rolling Sysmon out to the workstations
+> automatically via GPO is tracked in [Phase 7](07-automation.md).
