@@ -40,7 +40,8 @@ The lab is live through Phase 4: a pfSense-segmented network, an Active Director
 all-in-one SIEM on Ubuntu Server 24.04. Both Windows 11 workstations are domain-joined and
 running the Wazuh agent — they show **Active** on the dashboard, and the Phase 2 audit
 policy (logon, account-logon, object-access, privilege-use) is confirmed landing as events
-in Wazuh. Phases 5–8 (attacker infrastructure, the live pen-test, GPO-pushed automation,
+in Wazuh. The domain controller is also integrated with Sysmon (SwiftOnSecurity config)
+and the Wazuh agent. Phases 5–8 (attacker infrastructure, the live pen-test, GPO-pushed automation,
 and the detection write-up) are the remaining roadmap.
 
 - [x] Phase 0 — Prerequisites & environment prep
