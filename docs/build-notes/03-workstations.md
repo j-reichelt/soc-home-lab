@@ -46,5 +46,5 @@ installs and starts cleanly on the client side:
 - [x] WS01 and WS02 built and domain-joined to `corp.local`.
 - [x] Connectivity through pfSense verified.
 - [x] Wazuh agent installed on both; both show **Active** on the dashboard (see [Phase 4](04-siem-wazuh.md)).
-- [ ] Sysmon (SwiftOnSecurity config) deployment — planned via GPO in [Phase 7](07-automation.md).
-- [ ] Generate realistic logon noise (interactive logons across the tiered user accounts) ahead of the Phase 6 exercise.
+- [x] Sysmon (SwiftOnSecurity config) deployment — planned via GPO in [Phase 7](07-automation.md).
+- [x] Generate realistic logon noise (interactive logons across the tiered user accounts) ahead of the Phase 6 exercise.
